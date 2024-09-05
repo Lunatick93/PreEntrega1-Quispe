@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { Button } from "react-bootstrap";
+import { ButtonGroup } from "react-bootstrap";
 
 export const ItemCount = ({ onAdd, stock }) => {
     const [count, setCount] = useState(1);
@@ -17,12 +19,14 @@ export const ItemCount = ({ onAdd, stock }) => {
     };
 
     return (
-    <>
-    <button onClick={handeIncrease}>+</button>
-    <span>{count}</span>
-    <button onClick={handeDecrease}>-</button>
+    <div className="item-count">
+        <ButtonGroup>
+    <Button variant="secondary" onClick={handeIncrease}>+</Button>
+    <Button variant="outline-info"disable>{count}</Button>
+    <Button variant="secondary" onClick={handeDecrease}>-</Button>
+    </ButtonGroup>
     <br />
-    <button onClick={handleAdd}>Comprar</button>
-    </>
+    <Button variant="success" onClick={handleAdd} className="mt-2">Comprar</Button>
+    </div>
     );
 };
