@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { Spinner } from 'react-bootstrap';
 import {
     getFirestore,
     getDocs,
@@ -38,7 +39,10 @@ export const ItemListContainer = () => {
     }, [id]);
 
 
-    if(loading) return "wait";
+    if (loading) {
+  return <div className="text-center"><Spinner animation="border" variant="primary" /></div>;
+}
+
         
     return <Container className="mt-4 d-flex">
         {items.map((i) => (

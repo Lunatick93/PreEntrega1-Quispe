@@ -4,6 +4,7 @@ import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import Container from 'react-bootstrap/Container';
 import { ItemCount } from './ItemCount';
 import { ItemsContext } from '../contexts/ItemsContext';
+import { Spinner } from 'react-bootstrap';
 
 
 
@@ -32,7 +33,9 @@ export const ItemDetailContainer = () => {
         addItem({ ...item, quantity });
     };
 
-    if (loading) return "wait";
+    if (loading) {
+  return <div className="text-center"><Spinner animation="border" variant="primary" /></div>;
+}
 
     return (
     <Container className="mt-4">

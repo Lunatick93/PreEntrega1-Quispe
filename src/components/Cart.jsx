@@ -2,14 +2,13 @@ import { useContext, useState } from "react";
 import { ItemsContext } from "../contexts/ItemsContext";
 import  Container from "react-bootstrap/Container";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { Table } from "react-bootstrap";
 
 const initialValues = {
     phone: "",
     email: "",
     name: "",
 };
-
-
 
 export const Cart = () => {
 const [buyer, setBuyer] = useState(initialValues);
@@ -54,37 +53,46 @@ if (items.length === 0) return "IR A LA HOME";
 
  return (
   <Container>
-    <button onClick={reset}>Vaciar</button>
-    {items.map((item) => {
-            return (
-                <div key={item.id}>
-                    <h1>{item.title}</h1>
-                    <img src={item.imageid} height={200} />
-                    <p>{item.quantity}</p>
-                    <p onClick={() => removeItem(item.id)}>X</p>
-                </div>
-            );
-        })}
-        <br />
-        <div>Total $ {total}</div>
-        <br />
+    <button onClick={reset} className="btn btn-danger">Vaciar Carrito</button>
+  <Table striped bordered hover>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {items.map((item) => (
+        <tr key={item.id}>
+          <td>{item.title}</td>
+          <td>{item.quantity}</td>
+          <td>${item.price}</td>
+          <td>
+            <button onClick={() => removeItem(item.id)} className="btn btn-danger">Eliminar</button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </Table>
+  <h3>Total: ${total}</h3>
         <form>
-            <div>
-                <label>Nombre</label>
-                <input value={buyer.name} name="name" onChange={handleChange} />
-            </div>
-            <div>
-                <label>Teléfono</label>
-                <input value={buyer.phone} name="phone" onChange={handleChange} />
-            </div>
-            <div>
-                <label>Email</label>
-                <input value={buyer.email} name="email" onChange={handleChange} />
-            </div>
-        <button type="button" onClick={sendOrder}>
-                Comprar
-            </button>
-        </form>
+  <div className="form-group">
+    <label>Nombre</label>
+    <input className="form-control" value={buyer.name} name="name" onChange={handleChange} />
+  </div>
+  <div className="form-group">
+    <label>Teléfono</label>
+    <input className="form-control" value={buyer.phone} name="phone" onChange={handleChange} />
+  </div>
+  <div className="form-group">
+    <label>Email</label>
+    <input className="form-control" value={buyer.email} name="email" onChange={handleChange} />
+  </div>
+  <button type="button" className="btn btn-success" onClick={sendOrder}>Comprar</button>
+</form>
+
         </Container> 
  );
 };
