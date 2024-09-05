@@ -1,13 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { getFirestore, getDoc, doc } from 'firebase/firestore';
 import Container from 'react-bootstrap/Container';
+import { ItemCount } from './ItemCount';
+import { ItemsContext } from '../contexts/ItemsContext';
 
-import data from '../data/productos.json';
+
+
 
 export const ItemDetailContainer = () => {
     const [item, setItem] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const { addItem } = useContext(ItemsContext);
 
     const { id } = useParams();
 
@@ -23,14 +28,9 @@ export const ItemDetailContainer = () => {
             .finally(() => setLoading(false));
     }, [id]);
 
-     /*  useEffect(() => {
-        new Promise((resolve) => setTimeout(() => resolve(data), 2000)).then(
-            (response) => {
-                const finded = response.find((i) => i.id === Number(id));
-                setItem(finded);
-            })
-            .finally(() => setLoading(false));
-    }, [id]); */
+    const onAdd = (quantity) => {
+        addItem({ ...item, quantity });
+    };
 
     if (loading) return "wait";
 
@@ -42,6 +42,9 @@ export const ItemDetailContainer = () => {
         <img src={item.imageid}/>
         <br/>
         <b>${item.price}</b>
+        <br/>
+        <b>{item.stock}</b>
+        <ItemCount stock={item.stock} onAdd={onAdd} />
         </Container> 
     );  
 };  
